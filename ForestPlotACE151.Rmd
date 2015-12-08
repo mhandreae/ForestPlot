@@ -10,7 +10,7 @@ suppressWarnings(library(knitr))
 # set options
 opts_chunk$set(fig.width=6, fig.height=4, fig.path='Figs/',
                echo=FALSE, warning=FALSE, message=FALSE)
-eval_everything=FALSE
+eval_everything=TRUE
 ```
 
 
@@ -90,21 +90,15 @@ forestplot(
 # Forest Plot for ACE 151
 
 ```{r, ACE151}
-StudyNames <- c('Study','','Abrams 07','','Ellis 09','','Ware 10',
-                'Ware 10','Ware 10','','Wilsey 08','Wilsey 08','',
-                'Wilsey 13','Wilsey 13','','Bayesian')
+StudyNames <- c('Study','','Abrams 07','Ellis 09','Ware 10'
+                ,'Ware 10','','Bayesian')
 
-FollowUp <- c('Months','',96,'',96,'',2.5,6.3,9.4,'',19,34,'',9.0,18,
+FollowUp <- c('Months','',96,96,2.5,9.4,
               '','')
-Placebo <- c("Placebo",'',"6/25",'',"5/28",'',"3/22","","",'',"18/33",
-        "",'',"11/38","","","")
-Treat <- c("Treat",'',"13/25",'',"13/28",'',"4/21","5/22","7/21",'',
-        "24/36","22/33",'',"17/37","18/36","","")
-OR <- c('Est. OR (CI)',NA, '3.43 (1.00,11.8)', NA, 
-        '5.00 (1.10,22.9)',NA, '1.50 (0.25,8.98)',
-        '3.00 (0.31,28.8)','5.00 (0.58,42.8)',NA,
-        '2.67 (0.71,10.1)','3.50 (0.73,16.8)',NA,
-        '2.50 (0.78,7.97)','3.67 (1.02,13.1)', NA, 
+Placebo <- c("Placebo",'',"6/25","5/28","3/22","4/35","","")
+Treat <- c("Treat",'',"13/25","13/28","4/21","7/21","","")
+OR <- c('Est. OR (CI)',NA, '3.43 (1.00,11.8)', 
+        '5.00 (1.10,22.9)', '1.50 (0.25,8.98)','5.00 (0.58,42.8)', NA, 
         '3.22 (1.59,7.24)')
 
 TableText <- cbind(
@@ -114,15 +108,15 @@ TableText <- cbind(
       Placebo,
       OR)
 
-IsSummary <- c(T,T,F,T,F,T,F,F,F,T,F,F,T,F,F,T,T)
+IsSummary <- c(T,T,F,F,F,F,T,T)
 
 ForestData <- 
   structure(list(
-    mean  = c(NA,NA,1.2327,NA,1.609,NA,.405,1.099,1.609,NA,.981,1.253,NA,.916,1.299,NA,1.169), 
-    lower = c(NA,NA,0,NA,.091,NA,-1.38,-1.165,-.538,NA,-.346,-.319,NA,-.243,.023,NA,.462),
-    upper = c(NA,NA,2.4649,NA,3.13,NA,2.195,3.36,3.756,NA,2.308,2.824,NA,2.076,2.576,NA,1.986)),
+    mean  = c(NA,NA,1.2327,1.609,.405,1.609,NA,1.169), 
+    lower = c(NA,NA,0,.091,-1.38,-.538,NA,.462),
+    upper = c(NA,NA,2.4649,3.13,2.195,3.756,NA,1.986)),
     .Names = c("mean", "lower", "upper"), 
-    row.names = c(NA, -17L), 
+    row.names = c(NA, -8L), 
     class = "data.frame")
 
 forestplot(
