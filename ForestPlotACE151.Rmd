@@ -18,7 +18,6 @@ We are creating the Forest plot for the Illiac Crest Bone Granft Harvesting Baye
 
 ```{r}
 library(forestplot)
-eval_everything=FALSE
 ```
 
 # Example 
