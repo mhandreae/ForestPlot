@@ -10,7 +10,7 @@ suppressWarnings(library(knitr))
 # set options
 opts_chunk$set(fig.width=6, fig.height=4, fig.path='Figs/',
                echo=FALSE, warning=FALSE, message=FALSE)
-eval_everything=TRUE
+eval_everything=FALSE
 ```
 
 
@@ -86,9 +86,9 @@ forestplot(
   xticks=c(.2,.5,1,2,5,10,20,40))
 ```
 
-# Forest Plot for ACE 151
+# Forest Plot Simplified
 
-```{r, ACE151}
+```{r, Simplified, eval=eval_everything}
 StudyNames <- c('Study','','Abrams 07','Ellis 09','Ware 10'
                 ,'Ware 10','','Bayesian')
 
@@ -96,6 +96,47 @@ FollowUp <- c('Months','',96,96,2.5,9.4,
               '','')
 Placebo <- c("Placebo",'',"6/25","5/28","3/22","4/35","","")
 Treat <- c("Treat",'',"13/25","13/28","4/21","7/21","","")
+OR <- c('Est. OR (CI)',NA, '3.43 (1.00,11.8)', 
+        '5.00 (1.10,22.9)', '1.50 (0.25,8.98)','5.00 (0.58,42.8)', NA, 
+        '3.22 (1.59,7.24)')
+
+TableText <- cbind(
+      StudyNames,
+      FollowUp,
+      Treat,
+      Placebo,
+      OR)
+
+IsSummary <- c(T,T,F,F,F,F,T,T)
+
+ForestData <- 
+  structure(list(
+    mean  = c(NA,NA,1.2327,1.609,.405,1.609,NA,1.169), 
+    lower = c(NA,NA,0,.091,-1.38,-.538,NA,.462),
+    upper = c(NA,NA,2.4649,3.13,2.195,3.756,NA,1.986)),
+    .Names = c("mean", "lower", "upper"), 
+    row.names = c(NA, -8L), 
+    class = "data.frame")
+
+forestplot(
+  
+  TableText,
+  ForestData,
+  
+  is.summary=IsSummary,
+  main='Ignoring Dose',xlab='Odds Ratio',xlog=T,
+  xlim=c(-1,exp(4)),
+  xticks=c(.2,.5,1,2,5,10,20,40))
+```
+
+# Forest Plot for ACE 151
+
+```{r, ACE151}
+StudyNames <- c('Study','','Gundes 2000', 'Barkhuysen 2010', 'Singh 2007', 'Blumenthal 2005','','Bayesian')
+
+FollowUp <- c('Months','',3,12,60,3,'','')
+Treat <- c("Treat",'',"2/30","2/12","0/9","1.7*/18","","")
+Placebo <- c("Placebo",'',"5/15","6/12","7/11","16.8*/18","","")
 OR <- c('Est. OR (CI)',NA, '3.43 (1.00,11.8)', 
         '5.00 (1.10,22.9)', '1.50 (0.25,8.98)','5.00 (0.58,42.8)', NA, 
         '3.22 (1.59,7.24)')
