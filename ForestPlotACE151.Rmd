@@ -10,7 +10,7 @@ suppressWarnings(library(knitr))
 # set options
 opts_chunk$set(fig.width=6, fig.height=4, fig.path='Figs/',
                echo=FALSE, warning=FALSE, message=FALSE)
-eval_everything=FALSE
+eval_everything=TRUE
 ```
 
 
@@ -131,19 +131,18 @@ forestplot(
 
 # Forest Plot for ACE 151
 
-```{r, ACE151}
+```{r, ACE151, eval=eval_everything}
 StudyNames <- c('Study','','Gundes 2000', 'Barkhuysen 2010', 'Singh 2007', 'Blumenthal 2005','','Bayesian')
-
-FollowUp <- c('Months','',3,12,60,3,'','')
-Treat <- c("Treat",'',"2/30","2/12","0/9","1.7*/18","","")
-Placebo <- c("Placebo",'',"5/15","6/12","7/11","16.8*/18","","")
-OR <- c('Est. OR (CI)',NA, '3.43 (1.00,11.8)', 
-        '5.00 (1.10,22.9)', '1.50 (0.25,8.98)','5.00 (0.58,42.8)', NA, 
-        '3.22 (1.59,7.24)')
+#FollowUp <- c('Months','',3,12,60,3,'','')
+Treat <- c("Treat",'',"2/30","2/31","0/9","1.7*/18","","")
+Placebo <- c("Placebo",'',"5/15","2/27","7/11","16.8*/18","","")
+OR <- c('OR (CI)',NA, '0.01 (0,0.10)', 
+        '0.19 (0.03,0.93)', '0.18 (0.01,1.5)','0.18 (0.03,0.21)', NA, 
+        '0.10 (0.01,0.59)')
 
 TableText <- cbind(
       StudyNames,
-      FollowUp,
+#     FollowUp,
       Treat,
       Placebo,
       OR)
@@ -152,9 +151,9 @@ IsSummary <- c(T,T,F,F,F,F,T,T)
 
 ForestData <- 
   structure(list(
-    mean  = c(NA,NA,1.2327,1.609,.405,1.609,NA,1.169), 
-    lower = c(NA,NA,0,.091,-1.38,-.538,NA,.462),
-    upper = c(NA,NA,2.4649,3.13,2.195,3.756,NA,1.986)),
+    mean  = c(NA,NA,0.0143,0.1876,0.1792,0.1841,NA,0.09377), 
+    lower = c(NA,NA,0.001245,0.02557,0.01361,0.02588,NA,0.01319),
+    upper = c(NA,NA,0.09766,0.9294,1.494,1.212,NA,0.5891)),
     .Names = c("mean", "lower", "upper"), 
     row.names = c(NA, -8L), 
     class = "data.frame")
@@ -165,7 +164,51 @@ forestplot(
   ForestData,
   
   is.summary=IsSummary,
-  main='Ignoring Dose',xlab='Odds Ratio',xlog=T,
-  xlim=c(-1,exp(4)),
-  xticks=c(.2,.5,1,2,5,10,20,40))
+  main='ICBG Bayesian Analysis',xlab='Odds Ratio',xlog=T,
+  xlim=c(0,1),
+  xticks=c(0.01, 0.1, .2, .4, .6, .8, 1))
+
+ForestData
+```
+
+# Forest Plot for ACE 151 Nicer Formatting and study order/numbers/names still not corrected
+
+```{r, ACE151Nice}
+StudyNames <- c('Study','Blumenthal 2005',  'Gundes 2000', 'Barkhuysen 2010', 'Singh 2007','','Bayesian')
+#FollowUp <- c('Months',3,12,60,3,'','')
+Treat <- c("Treat","0/9", "2/30","2/31","1.7*/18","","")
+Placebo <- c("Placebo","7/11", "5/15","2/27","16.8*/18","","")
+OR <- c('OR (CI)', '0.01 (0,0.10)', 
+        '0.19 (0.03,0.93)', '0.18 (0.01,1.5)','0.18 (0.03,0.21)', NA, 
+        '0.10 (0.01,0.59)')
+
+TableText <- cbind(
+      StudyNames,
+#     FollowUp,
+      Treat,
+      Placebo,
+      OR)
+
+IsSummary <- c(T,F,F,F,F,T,T)
+
+ForestData <- 
+  structure(list(
+    mean  = c(NA,0.0143,0.1876,0.1792,0.1841,NA,0.09377), 
+    lower = c(NA,0.001245,0.02557,0.01361,0.02588,NA,0.01319),
+    upper = c(NA,0.09766,0.9294,1.494,1.212,NA,0.5891)),
+    .Names = c("mean", "lower", "upper"), 
+    row.names = c(NA, -7L), 
+    class = "data.frame")
+
+forestplot(
+  
+  TableText,
+  ForestData,
+  
+  is.summary=IsSummary,
+  main='ICBG Bayesian Analysis',xlab='Odds Ratio',xlog=T,
+  xlim=c(0,1),
+  xticks=c(0.01, 0.1, .2, .4, 1))
+
+ForestData
 ```
